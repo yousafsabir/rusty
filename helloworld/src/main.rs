@@ -3,7 +3,7 @@ fn main() {
     greetings(&hello);
 
     // data types
-    let aNumber = 4;
+    // let a_number = 4;
 }
 
 fn greetings(target: &str) {
