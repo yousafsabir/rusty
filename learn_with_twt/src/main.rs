@@ -50,10 +50,15 @@ fn main() {
     // This is how we set a value (if mutable)
     _an_array[0] = 5;
     // Note: We can't add something to arra after we initialize it (similar to tuples)
-    let mut a:i32 = 56;
-    let b:&i32 = &a;
-    a = 58;
-    println!("{}", a);
-    print!("{}", b)
+
+    // *-----------------------------------
+    // *---------- Console IO -------------
+    // *-----------------------------------
+    let mut an_input = String::new();
+
+    println!("Enter Something: ");
+    std::io::stdin().read_line(&mut an_input).expect("Coudln't read");
+
+    println!("You Typed: {}", an_input);
 
 }
