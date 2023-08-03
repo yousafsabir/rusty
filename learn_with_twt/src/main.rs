@@ -80,4 +80,63 @@ fn main() {
 
     // * conditional assignment
     let _conditional_var_1 = if conditional_var == 6 { 5 } else { 4 };
+
+    // * 2: loops
+    // * --------
+    // Rust has 3 loops: for, while, loop
+
+    // * for loop:
+    for i in 0..5 {
+        // will run from 0, 1, 2, 3, 4
+        println!("(for loop) {i}");
+    }
+    for j in 0..=5 {
+        // will run from 0, 1, 2, 3, 4, 5
+        println!("(for loop) {j}");
+    }
+
+    // in case of arrays
+    let loop_array: [char; 5] = ['H', 'e', 'l', 'l', 'o'];
+    println!("(for loop) ⬇");
+    for char in loop_array {
+        print!("{char}")
+    }
+    // alternatively
+    println!("(for loop) ⬇");
+    for k in 0..loop_array.len() {
+        print!("{}", loop_array[k]);
+    }
+
+    // * while loop:
+    let mut while_var: i32 = 5;
+    while while_var > 1 {
+        println!("(while loop), {while_var}");
+        while_var -= 1;
+    }
+
+    // * loop loop:
+    loop {
+        // this code runs forever unless you break it with 'break' keywod;
+        break;
+    }
+
+    // if we want to return something from loop loop, its the expression followed by break keyword
+    let _loop_var = loop {
+        break 5 + 10;
+    };
+
+    // we can also label a loop & break it by its label. this is really handy in case of nested loops (where you want to break a specific loop)
+    'top_loop: loop {
+        let mut count = 1;
+
+        loop {
+            if count > 5 {
+                break 'top_loop;
+            } else {
+                break;
+            }
+        }
+
+        count += 1;
+    }
 }
