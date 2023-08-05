@@ -139,4 +139,16 @@ fn main() {
 
         count += 1;
     }
+    // *-----------------------------------
+    // *------------ Functions ------------
+    // *-----------------------------------
+    let func_var_x = 3;
+    fn add_two(a: i32, b: i32) -> i32 {
+        if a == 5 {
+            return a + b + 5
+        }
+        a + b
+    }
+
+    let func_var_y = add_two(func_var_x, 5);
 }
