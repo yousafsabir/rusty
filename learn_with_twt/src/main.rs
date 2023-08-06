@@ -145,10 +145,45 @@ fn main() {
     let func_var_x = 3;
     fn add_two(a: i32, b: i32) -> i32 {
         if a == 5 {
-            return a + b + 5
+            return a + b + 5;
         }
         a + b
     }
 
     let func_var_y = add_two(func_var_x, 5);
+
+    // *-----------------------------------
+    // *------------ OwnerShip ------------
+    // *-----------------------------------
+    /* The way rust achieves memory saftey is implementing sense of ownership into the program. Now what is memory safety:
+     * Memory Safety:
+     *      before we talk about what memory saftey is. we have to understand the memory types. There are two types of memory: stack & heap.
+     *          stack: its a faster & organized memory in which only that data can be stored whose size (in bits) is known at programs compile time.
+     *          take for example integers, the size of an i32 type var would be fixed at 32 bits.
+     *          All the scalar types have fixed known size at compile time so they are stored on stack.
+     *
+     *          heap: its slower & less organized memory in which data of unknown size can be stored at runtime.
+     *          for examples Strings in rust, we can add to Strings & it works,
+     *          The way data is stored in heap is that, it stores data in heap, but pointer to that data is stored in stack.
+     * 
+     *      How programs use memory efficiently:
+     *          Each variable has a lifetime. At the start of its lifetime, memory is allocated & at the end of its lifetime, memory is returned back to ram
+     *          or you can say the memory is deallocated. These are two functions that allocate & deallocate the memory. In its lifetime, 
+     *          its data is used by the program and when we no longer need that data, the program deallocates its memory and the variable goes out of scope(unusable).
+     *          In some programming languages, you have to manually free the memory while some have Garbage Collectors to do this job for you.
+     * 
+     *      How memory becomes unsafe:
+     *          Lets say that you have two variables x & y. You assign var x some data in heap.
+     *          then you assign x to var y. in this assigning, you've only copied the pointer from x to y, not the data in the heap. after sometime, when the x goes out of
+     *          scope, languge calls to free its memory and the data behind the pointer gets erased. But every declared variable must has to deallocate at some time. so
+     *          when y goes out of scope, language tries to free memory which has already been freed. it doesn't free the memory it thinks its freeing but something else.
+     *          this is where the memory becomes unsafe.
+     * 
+     *      How rust addresses this issue:
+     *          In rust, you only have one owner of a data. when you try to assign var1, whose data is stored in heap, to var2, rust moves the value from var1 to var2 and
+     *          invalidates var1. Now you can't access var1 because it has gone out of scope now. 
+     *          Note: this only happens with heap vars, because its expensive to actually clone a heap data from one var to another var.
+     *          In case of stack vars, the value actually gets cloned to the other variable.
+     *          Note: passing a heap var to a  function also takes its ownership & makes it go out of scope.        
+     */
 }
