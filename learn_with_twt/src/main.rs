@@ -126,9 +126,8 @@ fn main() {
     };
 
     // we can also label a loop & break it by its label. this is really handy in case of nested loops (where you want to break a specific loop)
+    let mut count = 1;
     'top_loop: loop {
-        let mut count = 1;
-
         loop {
             if count > 5 {
                 break 'top_loop;
@@ -136,8 +135,7 @@ fn main() {
                 break;
             }
         }
-
-        count += 1;
+        count = count + 1;
     }
     // *-----------------------------------
     // *------------ Functions ------------
@@ -165,25 +163,67 @@ fn main() {
      *          heap: its slower & less organized memory in which data of unknown size can be stored at runtime.
      *          for examples Strings in rust, we can add to Strings & it works,
      *          The way data is stored in heap is that, it stores data in heap, but pointer to that data is stored in stack.
-     * 
+     *
      *      How programs use memory efficiently:
      *          Each variable has a lifetime. At the start of its lifetime, memory is allocated & at the end of its lifetime, memory is returned back to ram
-     *          or you can say the memory is deallocated. These are two functions that allocate & deallocate the memory. In its lifetime, 
+     *          or you can say the memory is deallocated. These are two functions that allocate & deallocate the memory. In its lifetime,
      *          its data is used by the program and when we no longer need that data, the program deallocates its memory and the variable goes out of scope(unusable).
      *          In some programming languages, you have to manually free the memory while some have Garbage Collectors to do this job for you.
-     * 
+     *
      *      How memory becomes unsafe:
      *          Lets say that you have two variables x & y. You assign var x some data in heap.
      *          then you assign x to var y. in this assigning, you've only copied the pointer from x to y, not the data in the heap. after sometime, when the x goes out of
      *          scope, languge calls to free its memory and the data behind the pointer gets erased. But every declared variable must has to deallocate at some time. so
      *          when y goes out of scope, language tries to free memory which has already been freed. it doesn't free the memory it thinks its freeing but something else.
      *          this is where the memory becomes unsafe.
-     * 
+     *
      *      How rust addresses this issue:
      *          In rust, you only have one owner of a data. when you try to assign var1, whose data is stored in heap, to var2, rust moves the value from var1 to var2 and
-     *          invalidates var1. Now you can't access var1 because it has gone out of scope now. 
+     *          invalidates var1. Now you can't access var1 because it has gone out of scope now.
      *          Note: this only happens with heap vars, because its expensive to actually clone a heap data from one var to another var.
      *          In case of stack vars, the value actually gets cloned to the other variable.
-     *          Note: passing a heap var to a  function also takes its ownership & makes it go out of scope.        
+     *          Note: passing a heap var to a  function also takes its ownership & makes it go out of scope.
+     */
+
+    // *-----------------------------------
+    // *------ Refrences & Borrowing ------
+    // *-----------------------------------
+    /*
+     *   Since there can only be one owner of a certain data. which is the first variable its stored in. and we can't assign it to another variable without
+     *   moving it, so this is a problem. But References & Borrowing are here to save us.
+     *   Refrences are like pointers to the original data except they can't be invalid or dangling.
+     *   Here we'll create a variable and another variable refrencing it.
+     */
+    let refrence_var = 5;
+    let _refrence_var_2 = &refrence_var;
+
+    /*
+     *  The scope of this _refrence_var_2 is until its last used. We can have mutable refrences to mutable variables
+     */
+    let mut refrence_var_3 = 8;
+    let _refrence_var_4 = &mut refrence_var_3;
+
+    /*
+     *  Now there are some rules regarding refrences. These are
+     *  - There can be as many as you want number of immutable refrences OR only one mutable refrences at a given time
+     */
+    let mut refrence_var_5 = 8;
+
+    // let _refrence_var_6 = &refrence_var_5;
+    // let _refrence_var_7 = &refrence_var_5;
+    // let _refrence_var_8 = &mut refrence_var_5;
+    /*
+     * Now the above code will cause errors, because we've immutable & mutable refrences at the same time.
+     * Let's take a look at when we can have both.
+     */
+
+    let refrence_var_9 = &refrence_var_5;
+    let refrence_var_10 = &refrence_var_5;
+
+    println!("{refrence_var_9} and {refrence_var_10}"); // * here refrence_var_9 & refrence_var_10 lifetime ends, so mutable refrence in the next line is valid
+
+    let _refrence_var_11 = &mut refrence_var_5;
+    /*
+     * Above code is a valid code
      */
 }
