@@ -226,4 +226,58 @@ fn main() {
     /*
      * Above code is a valid code
      */
+
+    structs();
+}
+
+fn structs() {
+    // *-----------------------------------
+    // *------------ Structs --------------
+    // *-----------------------------------
+    // Structs is like a compound data type that is more meaningful than like Tuples. You can have multiple data members & methods
+    // on a Struct
+
+    struct User {
+        username: String,
+        email: String,
+        is_active: bool,
+        sign_in_count: u64,
+    }
+
+    let user1: User = User {
+        username: String::from("yousafsabir"),
+        email: String::from("myousafdev@gmail.com"),
+        is_active: true,
+        sign_in_count: 15,
+    };
+
+    // we can use a struct in defining another struct of the same type
+    let user2: User = User {
+        username: String::from("ismailsabir"),
+        email: String::from("ismailsabir@gmail.com"),
+        ..user1
+    };
+    // Note: we've just spread scalar types of user1 in user2, that's why user1 is still valid & its not moved
+
+    let user3: User = User {
+        username: user1.username,
+        email: user1.email,
+        is_active: user1.is_active,
+        sign_in_count: user1.sign_in_count,
+    };
+    // Here user1 has moved and no longer valid (even a if user a single owned type, the whole struct moves along)
+
+    fn build_user(username: String, email: String) -> User {
+        User {
+            username,
+            email,
+            is_active: true,
+            sign_in_count: 1,
+        }
+    }
+
+    let user4: User = build_user(String::from("new"), String::from("world"));
+
+    // if we try to print the User struct, it won't, because User struct Doesn't have Display Trait
+    // the compiler would suggest using {:?} or {:#?} for debug print
 }
